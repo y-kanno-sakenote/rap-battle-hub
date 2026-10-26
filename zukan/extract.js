@@ -11,7 +11,7 @@ for(const [key,dir,title,url] of SITES){
   const un=s=>String(s??'').replace(/(^|[^A-Za-z])([A-Z]{2,3})(?![A-Za-z])/g,(m,p,a)=>A[a]?p+A[a]:m);
   out.push({key,title,url,chars:Object.entries(F).map(([id,f])=>{const p=P[id]||{}; return {id,name:f.name,emoji:f.emoji,desc:f.desc,
     pronoun:un(p.pronoun),tone:un(p.tone),pride:arr(p.pride).map(un),weakness:arr(p.weakness).map(un),signature:arr(p.signature),
-    img:`img/${key}/${id}.png`, face:`img/${key}/faces/${id}.png`,
+    img:`img/${key}/${id}.png`, face:`img/${key}/faces/${id}.png`, pose:`img/${key}/pose/${id}.png`,
     pronounShort:un(p.pronoun).split(/[（(。、]/)[0].trim(), catch:[...(un(p.tone).match(/口癖((?:「[^」]+」)+)/)?.[1]||'').matchAll(/「([^」]+)」/g)].map(m=>m[1]).filter(t=>!t.startsWith('〜'))};})});
 }
 fs.writeFileSync(path.join(__dirname,'data.json'),JSON.stringify(out,null,1));

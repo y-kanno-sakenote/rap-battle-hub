@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- 担当: 🎨 UI/UX係（ジョブズ×ラムス）／キャラ図鑑。文はすべて data.json から。ここで書き足さない -->
+<!-- 担当: 🎨 UI/UX係（ジョブズ×ラムス）／キャラ図鑑。キャラの文はすべて data.json から。ここで書き足さない（ページの文は見出しと案内1行だけ） -->
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
@@ -61,6 +61,19 @@
               drop-shadow(0 8px 10px rgba(0,0,0,.6));
        transition:transform .18s ease}
   .ch:hover .pic{transform:rotate(0) scale(1.04)}
+  /* 絵を押すとポーズ違いに替わる。押せる器は飾りなしの素のボタン */
+  .pose{display:block;width:100%;max-width:200px;margin:0 auto 12px;padding:0;border:0;background:none;color:inherit;
+        cursor:pointer;-webkit-tap-highlight-color:transparent;border-radius:8px}
+  .pose .pic{margin:0 auto}
+  .pose:disabled{cursor:default}
+  .pose:focus-visible{outline:2px solid var(--c1);outline-offset:6px}
+  .pic.hop{animation:hop .25s ease-out}
+  @keyframes hop{
+    0%  {transform:rotate(var(--r,0deg)) scale(1)}
+    45% {transform:translateY(-8px) rotate(calc(var(--r,0deg) * -2)) scale(1.06)}
+    100%{transform:rotate(var(--r,0deg)) scale(1)}
+  }
+  .hint{margin:0;text-align:center;font-size:13px;color:var(--sub)}
   .name{margin:0;font-size:15px;font-weight:800;line-height:1.35}
   /* 名前と肩書きは1行ずつ折り返さない（長い名前は「・」で割り、収まらなければ字を縮める） */
   .name .ln,.desc .ln{display:block;white-space:nowrap}
@@ -75,13 +88,14 @@
 
   .err{color:var(--sub);text-align:center;font-size:14px;margin-top:40px}
   footer{text-align:center;color:var(--sub);font-size:12px;margin-top:56px}
-  @media (prefers-reduced-motion: reduce){ .pic{transition:none} }
+  @media (prefers-reduced-motion: reduce){ .pic{transition:none} .pic.hop{animation:none} }
 </style>
 </head>
 <body>
 <div class="wrap">
   <a class="back" href="../">← ラップバトルへ戻る</a>
   <h1>キャラ図鑑</h1>
+  <p class="hint">絵をタップするとポーズが変わる</p>
   <main id="zukan"></main>
   <footer>© SAKENOTE</footer>
 </div>
@@ -106,6 +120,46 @@
   }
   function list(v){ return Array.isArray(v) ? v.filter(function(s){ return typeof s === 'string' && s.trim(); }) : []; }
 
+  // 絵をボタンで包み、押すたびに元の絵⇔ポーズ絵。ポーズ絵は最初に押したときに読みにいく。
+  // 読めなければ（まだ無い絵）元の絵のまま、以後そのボタンは押せなくする
+  function poser(img, base, pose){
+    var btn = el('button', 'pose');
+    btn.type = 'button';
+    btn.setAttribute('aria-pressed', 'false');
+    btn.appendChild(img);
+    var state = 'idle';   // idle → loading → ok / dead
+    var on = false;
+
+    function flip(){
+      on = !on;
+      img.src = on ? pose : base;
+      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      img.classList.remove('hop');
+      void img.offsetWidth;   // 続けて押しても毎回跳ねるように
+      img.classList.add('hop');
+    }
+    function die(){
+      state = 'dead';
+      if (on){ on = false; img.src = base; }
+      btn.disabled = true;
+      btn.removeAttribute('aria-pressed');
+    }
+    img.addEventListener('animationend', function(){ img.classList.remove('hop'); });
+
+    btn.addEventListener('click', function(){
+      if (state === 'ok'){ flip(); return; }
+      if (state !== 'idle') return;
+      state = 'loading';
+      var probe = new Image();
+      probe.onload = function(){ state = 'ok'; flip(); };
+      probe.onerror = die;
+      probe.src = pose;
+    });
+    // 万一ポーズ絵の表示中に読めなくなったら元の絵へ
+    img.addEventListener('error', function(){ if (on) die(); });
+    return btn;
+  }
+
   function card(c, i){
     var li = el('li', 'ch');
     if (c.img){
@@ -115,7 +169,7 @@
       img.width = 200; img.height = 200;
       img.loading = 'lazy'; img.decoding = 'async';
       img.style.setProperty('--r', TILT[i % TILT.length]);
-      li.appendChild(img);
+      li.appendChild(c.pose ? poser(img, '../' + c.img, '../' + c.pose) : img);
     }
     if (c.name) li.appendChild(lines('name', [...c.name].length > 7 ? c.name.split('・') : [c.name]));
     if (c.desc) li.appendChild(lines('desc', c.desc.split('。').filter(Boolean).map(function(t){ return t + '。'; })));

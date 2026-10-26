@@ -26,6 +26,7 @@
     ],
     "img": "img/jozo/koji.png",
     "face": "img/jozo/faces/koji.png",
+    "pose": "img/jozo/pose/koji.png",
     "pronounShort": "俺",
     "catch": []
    },
@@ -51,6 +52,7 @@
     ],
     "img": "img/jozo/yeast.png",
     "face": "img/jozo/faces/yeast.png",
+    "pose": "img/jozo/pose/yeast.png",
     "pronounShort": "俺",
     "catch": []
    },
@@ -76,6 +78,7 @@
     ],
     "img": "img/jozo/toji.png",
     "face": "img/jozo/faces/toji.png",
+    "pose": "img/jozo/pose/toji.png",
     "pronounShort": "儂",
     "catch": []
    },
@@ -102,6 +105,7 @@
     ],
     "img": "img/jozo/lactic.png",
     "face": "img/jozo/faces/lactic.png",
+    "pose": "img/jozo/pose/lactic.png",
     "pronounShort": "俺",
     "catch": []
    },
@@ -127,6 +131,7 @@
     ],
     "img": "img/jozo/rice.png",
     "face": "img/jozo/faces/rice.png",
+    "pose": "img/jozo/pose/rice.png",
     "pronounShort": "俺",
     "catch": []
    }
@@ -166,6 +171,7 @@
     ],
     "img": "img/wine/cab.png",
     "face": "img/wine/faces/cab.png",
+    "pose": "img/wine/pose/cab.png",
     "pronounShort": "私",
     "catch": [
      "やります！",
@@ -200,6 +206,7 @@
     ],
     "img": "img/wine/merlot.png",
     "face": "img/wine/faces/merlot.png",
+    "pose": "img/wine/pose/merlot.png",
     "pronounShort": "僕",
     "catch": [
      "どうぞどうぞ",
@@ -236,6 +243,7 @@
     ],
     "img": "img/wine/pinot.png",
     "face": "img/wine/faces/pinot.png",
+    "pose": "img/wine/pose/pinot.png",
     "pronounShort": "わたくし",
     "catch": [
      "……それで？",
@@ -270,6 +278,7 @@
     ],
     "img": "img/wine/chard.png",
     "face": "img/wine/faces/chard.png",
+    "pose": "img/wine/pose/chard.png",
     "pronounShort": "シャル",
     "catch": [
      "次の衣装、いくよっ！",
@@ -306,6 +315,7 @@
     ],
     "img": "img/wine/sauvb.png",
     "face": "img/wine/faces/sauvb.png",
+    "pose": "img/wine/pose/sauvb.png",
     "pronounShort": "ワタシ",
     "catch": [
      "別に",
@@ -348,6 +358,7 @@
     ],
     "img": "img/shochu/imo.png",
     "face": "img/shochu/faces/imo.png",
+    "pose": "img/shochu/pose/imo.png",
     "pronounShort": "おいどん",
     "catch": [
      "臭いじゃなか、香りじゃ！",
@@ -383,6 +394,7 @@
     ],
     "img": "img/shochu/mugi.png",
     "face": "img/shochu/faces/mugi.png",
+    "pose": "img/shochu/pose/mugi.png",
     "pronounShort": "自分",
     "catch": [
      "癖がないのが癖っす！",
@@ -418,6 +430,7 @@
     ],
     "img": "img/shochu/kome.png",
     "face": "img/shochu/faces/kome.png",
+    "pose": "img/shochu/pose/kome.png",
     "pronounShort": "手前",
     "catch": [
      "品よく、丁寧に"
@@ -452,6 +465,7 @@
     ],
     "img": "img/shochu/kokuto.png",
     "face": "img/shochu/faces/kokuto.png",
+    "pose": "img/shochu/pose/kokuto.png",
     "pronounShort": "うち",
     "catch": [
      "ラムじゃないってば！",
@@ -490,6 +504,7 @@
     ],
     "img": "img/shochu/awamori.png",
     "face": "img/shochu/faces/awamori.png",
+    "pose": "img/shochu/pose/awamori.png",
     "pronounShort": "わん",
     "catch": [
      "なんくるないさー",
@@ -536,6 +551,7 @@
     ],
     "img": "img/chomiryo/shoyu.png",
     "face": "img/chomiryo/faces/shoyu.png",
+    "pose": "img/chomiryo/pose/shoyu.png",
     "pronounShort": "余",
     "catch": [
      "苦しゅうない",
@@ -575,6 +591,7 @@
     ],
     "img": "img/chomiryo/miso.png",
     "face": "img/chomiryo/faces/miso.png",
+    "pose": "img/chomiryo/pose/miso.png",
     "pronounShort": "うち",
     "catch": [
      "手前みそだけどね",
@@ -616,6 +633,7 @@
     ],
     "img": "img/chomiryo/mirin.png",
     "face": "img/chomiryo/faces/mirin.png",
+    "pose": "img/chomiryo/pose/mirin.png",
     "pronounShort": "あっし",
     "catch": [
      "へい、照り一丁",
@@ -657,6 +675,7 @@
     ],
     "img": "img/chomiryo/su.png",
     "face": "img/chomiryo/faces/su.png",
+    "pose": "img/chomiryo/pose/su.png",
     "pronounShort": "拙者",
     "catch": [
      "いざ、参る",
@@ -701,6 +720,7 @@
     ],
     "img": "img/chomiryo/seishu.png",
     "face": "img/chomiryo/faces/seishu.png",
+    "pose": "img/chomiryo/pose/seishu.png",
     "pronounShort": "わて",
     "catch": [
      "ほな、ひと振り",
