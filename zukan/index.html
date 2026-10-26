@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<!-- 担当: 🎨 UI/UX係（ジョブズ×ラムス）／キャラ図鑑。文はすべて data.json から。ここで書き足さない -->
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark">
+<title>キャラ図鑑｜ラップバトル｜SAKENOTE</title>
+<meta property="og:title" content="キャラ図鑑｜ラップバトル｜SAKENOTE">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- 入口ページと同じ Dela Gothic One。見出しの字だけ取り寄せる -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap&text=キャラ図鑑醸造ワイン焼酎調味料ラップバトル">
+<style>
+  /* 入口ページ（../index.html）の壁と色をそのまま使う */
+  :root{
+    --ink:#f3eee6; --sub:#9d958a;
+    --sans:"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;
+    --display:"Dela Gothic One",var(--sans);
+  }
+  .jozo    {--c1:#e8c15a}
+  .wine    {--c1:#e3aaa2}
+  .shochu  {--c1:#d4936a}
+  .chomiryo{--c1:#a9c77e}
+  *{box-sizing:border-box}
+  body{margin:0;color:var(--ink);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased;
+    background:
+      radial-gradient(circle at 24px 20px, #050505 2.5px, rgba(255,255,255,.07) 3.5px, transparent 4.5px) 0 0/180px 90px,
+      radial-gradient(circle at 156px 20px, #050505 2.5px, rgba(255,255,255,.07) 3.5px, transparent 4.5px) 0 0/180px 90px,
+      linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px) 0 0/180px 90px,
+      linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px) 0 0/180px 90px,
+      radial-gradient(ellipse at 15% 0%, #2b2826, transparent 60%),
+      radial-gradient(ellipse at 90% 100%, #242120, transparent 55%),
+      #171615;
+    min-height:100vh}
+  a{color:inherit}
+  .wrap{max-width:1120px;margin:0 auto;padding:20px 16px 48px}
+  .back{display:inline-block;color:var(--sub);font-size:13px;text-decoration:none;padding:6px 0}
+  .back:hover,.back:focus-visible{color:var(--ink)}
+  h1{margin:20px 0 8px;text-align:center;font-family:var(--display);font-weight:400;line-height:1.1;
+     font-size:clamp(36px,10vw,56px);
+     background:linear-gradient(#f7e08f,#d9ab3c 55%,#9a7116);-webkit-background-clip:text;background-clip:text;color:transparent;
+     filter:drop-shadow(0 3px 0 #000)}
+
+  section{margin-top:44px}
+  .head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:4px 16px;margin-bottom:20px}
+  h2{margin:0;font-family:var(--display);font-weight:400;font-size:clamp(18px,5vw,24px);line-height:1.3;color:var(--c1)}
+  .play{font-size:13px;color:var(--sub);text-decoration:none;white-space:nowrap}
+  .play:hover,.play:focus-visible{color:var(--c1)}
+
+  /* 並び：スマホ2列／中くらい3列／PC5列 */
+  .cast{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:32px 12px;margin:0;padding:0;list-style:none}
+  @media (min-width:600px){ .cast{grid-template-columns:repeat(3,minmax(0,1fr));gap:36px 20px} }
+  @media (min-width:960px){ .cast{grid-template-columns:repeat(5,minmax(0,1fr))} }
+
+  .ch{text-align:center;min-width:0;container-type:inline-size}
+  /* 各サイトのキャラカードと同じ系統：白フチ＋壁に落ちる影、少し傾けて貼る */
+  .pic{display:block;width:100%;max-width:200px;height:auto;margin:0 auto 12px;transform:rotate(var(--r,0deg));
+       filter:drop-shadow(3px 0 0 #fff) drop-shadow(-3px 0 0 #fff) drop-shadow(0 3px 0 #fff) drop-shadow(0 -3px 0 #fff)
+              drop-shadow(0 8px 10px rgba(0,0,0,.6));
+       transition:transform .18s ease}
+  .ch:hover .pic{transform:rotate(0) scale(1.04)}
+  .name{margin:0;font-size:15px;font-weight:800;line-height:1.35}
+  /* 名前と肩書きは1行ずつ折り返さない（長い名前は「・」で割り、収まらなければ字を縮める） */
+  .name .ln,.desc .ln{display:block;white-space:nowrap}
+  .name .ln{font-size:min(15px,calc(100cqi / var(--n,4)))}
+  .desc .ln{font-size:min(12.5px,calc(100cqi / var(--n,11)))}
+  .desc{margin:4px 0 0;font-size:12.5px;line-height:1.55;color:var(--ink);opacity:.85}
+  .pron{margin:6px 0 0;font-size:12px;color:var(--sub)}
+  .catch{margin:4px 0 0;font-size:12.5px;line-height:1.5;color:var(--c1)}
+  .catch span{display:inline-block}
+  .tags{display:flex;flex-wrap:wrap;justify-content:center;gap:4px;margin:8px 0 0;padding:0;list-style:none}
+  .tags li{font-size:11px;line-height:1;padding:4px 7px;border:1px solid var(--c1);border-radius:999px;color:var(--c1);opacity:.85}
+
+  .err{color:var(--sub);text-align:center;font-size:14px;margin-top:40px}
+  footer{text-align:center;color:var(--sub);font-size:12px;margin-top:56px}
+  @media (prefers-reduced-motion: reduce){ .pic{transition:none} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../">← ラップバトルへ戻る</a>
+  <h1>キャラ図鑑</h1>
+  <main id="zukan"></main>
+  <footer>© SAKENOTE</footer>
+</div>
+
+<script>
+(function(){
+  // 貼るときの傾き（5体の並びで交互に）
+  var TILT = ['-3deg','2deg','-2deg','3deg','-1deg'];
+  var root = document.getElementById('zukan');
+
+  function el(tag, cls, text){
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text != null) e.textContent = text;
+    return e;
+  }
+  // 1行ずつの span に分ける。--n＝その行の字数（＋余白1字）で、幅に収まる字の大きさを決める
+  function lines(cls, arr){
+    var p = el('p', cls);
+    arr.forEach(function(t){ var s = el('span', 'ln', t); s.style.setProperty('--n', [...t].length + 1); p.appendChild(s); });
+    return p;
+  }
+  function list(v){ return Array.isArray(v) ? v.filter(function(s){ return typeof s === 'string' && s.trim(); }) : []; }
+
+  function card(c, i){
+    var li = el('li', 'ch');
+    if (c.img){
+      var img = el('img', 'pic');
+      img.src = '../' + c.img;
+      img.alt = c.name || '';
+      img.width = 200; img.height = 200;
+      img.loading = 'lazy'; img.decoding = 'async';
+      img.style.setProperty('--r', TILT[i % TILT.length]);
+      li.appendChild(img);
+    }
+    if (c.name) li.appendChild(lines('name', [...c.name].length > 7 ? c.name.split('・') : [c.name]));
+    if (c.desc) li.appendChild(lines('desc', c.desc.split('。').filter(Boolean).map(function(t){ return t + '。'; })));
+    if (c.pronounShort) li.appendChild(el('p', 'pron', '一人称　' + c.pronounShort));
+    var catches = list(c.catch).slice(0, 2);
+    if (catches.length){
+      var p = el('p', 'catch');
+      catches.forEach(function(s){ p.appendChild(el('span', null, '「' + s + '」')); });
+      li.appendChild(p);
+    }
+    var tags = list(c.signature).slice(0, 5);
+    if (tags.length){
+      var ul = el('ul', 'tags');
+      tags.forEach(function(s){ ul.appendChild(el('li', null, s)); });
+      li.appendChild(ul);
+    }
+    return li;
+  }
+
+  function render(works){
+    works.forEach(function(w){
+      var chars = Array.isArray(w.chars) ? w.chars : [];
+      if (!chars.length) return;
+      var sec = el('section', w.key || '');
+      var head = el('div', 'head');
+      head.appendChild(el('h2', null, w.title || ''));
+      if (w.url){
+        var a = el('a', 'play', 'このラップで遊ぶ→');
+        a.href = w.url;
+        head.appendChild(a);
+      }
+      sec.appendChild(head);
+      var ul = el('ul', 'cast');
+      chars.forEach(function(c, i){ ul.appendChild(card(c, i)); });
+      sec.appendChild(ul);
+      root.appendChild(sec);
+    });
+  }
+
+  fetch('data.json', {cache: 'no-cache'})
+    .then(function(r){ if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(function(d){ if (!Array.isArray(d)) throw new Error('形'); render(d); })
+    .catch(function(){
+      root.appendChild(el('p', 'err', 'キャラを読み込めませんでした。再読み込みしてください。'));
+    });
+})();
+</script>
+</body>
+</html>
