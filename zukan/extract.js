@@ -1,6 +1,6 @@
 // 4作の index.html から FIGHTERS（名前・肩書き）と PERSONA（人格）を抜いて zukan/data.json にする。図鑑の文はここから来るものだけ（新しい事実は書かない）
 const fs=require('fs'), path=require('path');
-const SITES=[['jozo','brew-rap-battle','醸造ラップバトル','https://jozorap.sakenote.net/'],['wine','wine-rap-battle','ワインラップバトル','https://y-kanno-sakenote.github.io/wine-rap-battle/'],['shochu','shochu-rap-battle','焼酎ラップバトル','https://y-kanno-sakenote.github.io/shochu-rap-battle/'],['chomiryo','chomiryo-rap-battle','調味料ラップバトル','https://y-kanno-sakenote.github.io/chomiryo-rap-battle/']];
+const SITES=[['jozo','jozo','醸造ラップバトル','https://jozorap.sakenote.net/'],['wine','wine','ワインラップバトル','https://y-kanno-sakenote.github.io/wine-rap-battle/'],['shochu','shochu','焼酎ラップバトル','https://y-kanno-sakenote.github.io/shochu-rap-battle/'],['chomiryo','chomiryo','調味料ラップバトル','https://y-kanno-sakenote.github.io/chomiryo-rap-battle/']];
 const grab=(src,name)=>{ const i=src.search(new RegExp(`const ${name}\\s*=\\s*\\{`)); if(i<0) return null;
   let j=src.indexOf('{',i), d=0, k=j; for(;k<src.length;k++){ if(src[k]==='{')d++; else if(src[k]==='}'){d--; if(!d)break;} } return eval('('+src.slice(j,k+1)+')'); };
 const arr=x=>Array.isArray(x)?x:(x?[x]:[]);
